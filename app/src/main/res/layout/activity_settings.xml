@@ -1,0 +1,85 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/settings_toolbar"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ToolbarStyle"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        android:layout_marginBottom="30dp">
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/settings_trading_headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_trading_headline"
+        android:textSize="16dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@id/settings_toolbar"
+        android:textColor="@android:color/secondary_text_light"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"/>
+
+    <TextView
+        android:id="@+id/settings_trading_valuetext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00"
+        android:layout_below="@id/settings_trading_headline"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"/>
+
+    <SeekBar
+        android:id="@+id/settings_trading_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/settings_trading_valuetext"
+        android:paddingHorizontal="30dp"
+        android:layout_marginBottom="40dp"
+        android:max="100"
+        android:progressTint="@color/colorPrimaryDark"
+        android:thumbTint="@color/colorPrimary"
+        />
+
+    <TextView
+        android:id="@+id/settings_event_headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_event_headline"
+        android:textSize="16dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@id/settings_trading_seekbar"
+        android:textColor="@android:color/secondary_text_light"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/settings_event_valuetext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00"
+        android:layout_below="@id/settings_event_headline"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"/>
+
+    <SeekBar
+        android:id="@+id/settings_event_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/settings_event_valuetext"
+        android:paddingHorizontal="30dp"
+        android:max="100"
+        android:progressTint="@color/colorPrimaryDark"
+        android:thumbTint="@color/colorPrimary"
+        />
+
+
+</RelativeLayout>

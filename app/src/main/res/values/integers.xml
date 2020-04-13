@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="maxMillis">90000</integer>
+    <integer name="chanceOfTradingChange">30</integer>
+    <integer name="chanceOfEventChange">30</integer>
+</resources>

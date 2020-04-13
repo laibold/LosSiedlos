@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/event_headline_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/eventType"
+        android:textSize="20dp"
+        android:textColor="@android:color/secondary_text_light"
+        android:layout_centerHorizontal="true"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/event_cardview"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:elevation="40dp"
+        app:cardCornerRadius="45dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/event_headline_textview"
+        >
+
+        <ImageView
+            android:id="@+id/event_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:src="@drawable/img_grain"
+            android:background="@drawable/cardview_outline_selector_45dp"
+            />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/event_overlay_cardview"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        app:cardCornerRadius="45dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        app:cardBackgroundColor="#37FF0000"
+        android:layout_below="@id/event_headline_textview"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/event_symbol_textview"
+        android:text="X"
+        android:textSize="30dp"
+        android:layout_toEndOf="@id/event_cardview"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/event_description_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et."
+        android:textSize="14dp"
+        android:layout_below="@id/event_cardview"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        />
+
+</RelativeLayout>
