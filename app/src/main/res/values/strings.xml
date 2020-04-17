@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">LosSiedlos</string>
 
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="database_name">database.db</string>
 
     <string name="brick">Lehm</string>
     <string name="grain">Getreide</string>

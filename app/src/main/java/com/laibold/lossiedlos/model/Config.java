@@ -1,27 +1,39 @@
 package com.laibold.lossiedlos.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 /**
- * Singleton class that contains chances of trading and event changes.
+ * Class that contains chances of trading and event changes.
  * Set in SettingsActivity, read in MainActivity
  */
+@Entity
 public class Config {
 
-    private static Config instance;
+    @PrimaryKey
+    private int id;
 
-    private int chanceOfTradingChange = -1;
-    private int chanceOfEventChange = -1;
+    @ColumnInfo
+    private int chanceOfTradingChange;
 
-    private Config () {}
+    @ColumnInfo
+    private int chanceOfEventChange;
+
+    public Config () {}
 
     /**
-     * get singleton instance
-     * @return instance of Config
+     * @return Database id
      */
-    public static Config getInstance(){
-        if (Config.instance == null){
-            Config.instance = new Config();
-        }
-        return Config.instance;
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id Database id
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**

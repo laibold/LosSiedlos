@@ -11,7 +11,6 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +22,7 @@ import com.laibold.lossiedlos.model.event.card.CardEvent;
 import com.laibold.lossiedlos.model.event.card.CardEventType;
 import com.laibold.lossiedlos.controller.event.EventGenerator;
 import com.laibold.lossiedlos.controller.trading.TradingGenerator;
+import com.laibold.lossiedlos.persistence.AppRoomDatabase;
 
 import java.util.Locale;
 
@@ -32,11 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonStartPause;
     private Button buttonNextPlayer;
 
-    private RelativeLayout mainLayout;
     private ImageView tradingGiveImgView;
     private ImageView tradingGetImgView;
     private TextView tradingGiveTextView;
-    private TextView tradingGetTextView;
     private ImageView eventImgView;
     private CardView eventOverlayCardView;
     private TextView eventSymbolTextView;
@@ -52,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TradingGenerator tradingGenerator;
     private EventGenerator eventGenerator;
-    Config config;
+    private AppRoomDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +59,8 @@ public class MainActivity extends AppCompatActivity {
         nextPlayerSound = MediaPlayer.create(this, R.raw.next);
         changeSound = MediaPlayer.create(this, R.raw.change);
         clickSound = MediaPlayer.create(this, R.raw.click);
-        mainLayout = findViewById(R.id.activity_main);
 
-        config = Config.getInstance();
-
-        if(config.getChanceOfEventChange() == -1){ // value hasn't been set
-            config.setChanceOfTradingChange(getResources().getInteger(R.integer.chanceOfTradingChange));
-            config.setChanceOfEventChange(getResources().getInteger(R.integer.chanceOfEventChange));
-        }
+        createConfig();
 
         configToolbar();
         configTimer();
@@ -80,15 +72,30 @@ public class MainActivity extends AppCompatActivity {
         refreshEventView(true);
     }
 
-    @Override
+
     /**
      * Pause Timer and show Toast on pause
      */
+    @Override
     protected void onPause() {
         super.onPause();
         if (timerRunning){
             pauseTimer();
             Toast.makeText(getApplicationContext(), "Timer pausiert.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Creates config object and stores it in RoomDatabase
+     */
+    private void createConfig() {
+        database = AppRoomDatabase.getInstance(getApplicationContext());
+
+        if (database.configDao().countEntries() == 0){ // No config set
+            Config config = new Config();
+            database.configDao().insertConfig(config);
+            database.configDao().setChanceOfTradingChange(getResources().getInteger(R.integer.chanceOfTradingChange));
+            database.configDao().setChanceOfEventChange(getResources().getInteger(R.integer.chanceOfEventChange));
         }
     }
 
@@ -106,11 +113,10 @@ public class MainActivity extends AppCompatActivity {
      * Find views by id and set attributes
      */
     private void configTradingView(){
-        this.tradingGenerator = new TradingGenerator();
+        this.tradingGenerator = new TradingGenerator(this);
         this.tradingGiveImgView = findViewById(R.id.trading_give_imageview);
         this.tradingGetImgView = findViewById(R.id.trading_get_imageview);
         this.tradingGiveTextView = findViewById(R.id.traging_give_textview);
-        this.tradingGetTextView = findViewById(R.id.traging_get_textview);
     }
 
     /**
@@ -237,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
 
         buttonNextPlayer.setVisibility(View.VISIBLE);
         timerRunning = true;
-        buttonStartPause.setText("pause");
+        buttonStartPause.setText(getResources().getString(R.string.pause));
     }
 
     /**
@@ -248,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
             timer.cancel();
         }
         timerRunning = false;
-        buttonStartPause.setText("Start");
+        buttonStartPause.setText(getResources().getString(R.string.start));
     }
 
     /**

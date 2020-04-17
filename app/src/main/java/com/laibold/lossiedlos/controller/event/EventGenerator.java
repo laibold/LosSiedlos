@@ -2,27 +2,34 @@ package com.laibold.lossiedlos.controller.event;
 
 import android.app.Activity;
 
-import com.laibold.lossiedlos.model.Config;
 import com.laibold.lossiedlos.model.event.Event;
 import com.laibold.lossiedlos.model.ResourceCard;
 import com.laibold.lossiedlos.model.event.card.CardEvent;
 import com.laibold.lossiedlos.model.event.card.CardEventType;
 import com.laibold.lossiedlos.model.event.custom.CustomEvent;
 import com.laibold.lossiedlos.model.event.custom.CustomEventType;
+import com.laibold.lossiedlos.persistence.AppRoomDatabase;
 
 import java.util.Random;
 
+/**
+ * Generates New Events based on Random
+ */
 public class EventGenerator {
 
     private Random random;
     private Event currEvent;
-    private Config config;
+    private AppRoomDatabase database;
 
     private int cardQuantity;
     private int cardEventQuantity;
     private int customEventQuantity;
     private Activity activity;
 
+    /**
+     * New EventGenerator
+     * @param activity Belonging Activity
+     */
     public EventGenerator(Activity activity){
         this.random = new Random();
         this.cardQuantity = ResourceCard.values().length -1; // -1 because question mark not included
@@ -30,11 +37,14 @@ public class EventGenerator {
         this.customEventQuantity = CustomEventType.values().length;
         this.activity = activity;
 
-        this.config = Config.getInstance();
+        this.database = AppRoomDatabase.getInstance(activity.getApplicationContext());
 
         generateEvent();
     }
 
+    /**
+     * Generates new Event (CustomEvent or CardEvent)
+     */
     private void generateEvent() {
         int i = random.nextInt(3); // 0 to 2
         int ordinal;
@@ -52,11 +62,17 @@ public class EventGenerator {
         }
     }
 
+    /**
+     * @return Current Event (CustomEvent or CardEvent)
+     */
     public Event getCurrEvent() {
         generateEvent();
         return currEvent;
     }
 
+    /**
+     * @return Description of Current Event
+     */
     public String getCurrDescription(){
         String s = activity.getResources().getString(currEvent.getDescriptionID());
 
@@ -68,15 +84,17 @@ public class EventGenerator {
         return s;
     }
 
+    /**
+     * @return true if Event sould be changed based on Random
+     */
     public boolean changeEvent(){
-        int i = random.nextInt(99); //between 0 and 8
-        if (i < config.getChanceOfEventChange() - 1) { // 3 out of 9 cases
-            return true;
-        } else {
-            return false;
-        }
+        int i = random.nextInt(99);
+        return (i < database.configDao().getChanceOfEventChange() - 1);
     }
 
+    /**
+     * @return ResourceID of Image belonging to CurrentEvent
+     */
     public int getCurrImageResourceID() {
         return currEvent.getImageResourceID();
     }

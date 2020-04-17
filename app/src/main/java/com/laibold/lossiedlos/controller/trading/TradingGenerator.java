@@ -1,7 +1,10 @@
 package com.laibold.lossiedlos.controller.trading;
 
+import android.app.Activity;
+
 import com.laibold.lossiedlos.model.Config;
 import com.laibold.lossiedlos.model.ResourceCard;
+import com.laibold.lossiedlos.persistence.AppRoomDatabase;
 
 import java.util.Random;
 
@@ -9,22 +12,24 @@ import java.util.Random;
  * Generates trading rates for MainActivity
  */
 public class TradingGenerator {
+
+    private Random random;
+    private AppRoomDatabase database;
+
     private ResourceCard giveCard;
     private ResourceCard getCard;
     private int giveRate;
     private int cardQuantity;
 
-    private Random random;
-    private Config config;
-
     /**
-     * constructor
+     * New TradingGenerator
+     * @param activity belonging Actitivy
      */
-    public TradingGenerator(){
+    public TradingGenerator(Activity activity){
         this.random = new Random();
         this.cardQuantity = ResourceCard.values().length;
 
-        this.config = Config.getInstance();
+        this.database = AppRoomDatabase.getInstance(activity.getApplicationContext());
 
         this.giveCard = generateGiveCard();
         this.getCard = generateGetCard();
@@ -111,11 +116,7 @@ public class TradingGenerator {
      * @return true if trading should be changed
      */
     public boolean changeTrading(){
-        int i = random.nextInt(99); //between 0 and 100
-        if (i < config.getChanceOfTradingChange() - 1) {
-            return true;
-        } else {
-            return false;
-        }
+        int i = random.nextInt(99);
+        return (i < database.configDao().getChanceOfTradingChange() - 1);
     }
 }

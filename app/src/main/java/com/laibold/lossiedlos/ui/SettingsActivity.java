@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.laibold.lossiedlos.R;
-import com.laibold.lossiedlos.model.Config;
+import com.laibold.lossiedlos.persistence.AppRoomDatabase;
 
 /**
  * Settings Activity
@@ -21,14 +21,14 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView eventValueText;
     private SeekBar eventSeekBar;
 
-    private Config config;
+    private AppRoomDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        this.config = Config.getInstance();
+        database = AppRoomDatabase.getInstance(getApplicationContext());
 
         configToolbar();
         configTradingSeekBar();
@@ -53,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void configTradingSeekBar() {
         this.tradingSeekBar = findViewById(R.id.settings_trading_seekbar);
         this.tradingValueText = findViewById(R.id.settings_trading_valuetext);
-        tradingSeekBar.setProgress(config.getChanceOfTradingChange());
+        tradingSeekBar.setProgress(database.configDao().getChanceOfTradingChange());
         tradingValueText.setText(String.valueOf(tradingSeekBar.getProgress()));
 
         tradingSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -69,7 +69,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                config.setChanceOfTradingChange(seekBar.getProgress());
+                database.configDao().setChanceOfTradingChange(seekBar.getProgress());
             }
         });
     }
@@ -80,7 +80,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void configEventSeekBar() {
         this.eventSeekBar = findViewById(R.id.settings_event_seekbar);
         this.eventValueText = findViewById(R.id.settings_event_valuetext);
-        eventSeekBar.setProgress(config.getChanceOfEventChange());
+        eventSeekBar.setProgress(database.configDao().getChanceOfEventChange());
         eventValueText.setText(String.valueOf(eventSeekBar.getProgress()));
 
         eventSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -96,7 +96,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                config.setChanceOfEventChange(seekBar.getProgress());
+                database.configDao().setChanceOfEventChange(seekBar.getProgress());
             }
         });
     }
