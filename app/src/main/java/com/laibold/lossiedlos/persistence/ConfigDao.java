@@ -25,4 +25,10 @@ public interface ConfigDao {
 
     @Query("UPDATE Config set chanceOfTradingChange = :chanceOfTradingChange where id = 0")
     int setChanceOfTradingChange(int chanceOfTradingChange);
+
+    @Query("SELECT playSound FROM Config where id = 0")
+    boolean getPlaySound();
+
+    @Query("UPDATE Config set playSound = :playSound where id = 0")
+    void setPlaySound(boolean playSound);
 }

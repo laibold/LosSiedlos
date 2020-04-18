@@ -44,9 +44,10 @@ public class MainActivity extends AppCompatActivity {
     private boolean timerRunning;
     private long millisLeft;
 
-    MediaPlayer nextPlayerSound;
-    MediaPlayer changeSound;
-    MediaPlayer clickSound;
+    private boolean playSound;
+    private MediaPlayer nextPlayerSound;
+    private MediaPlayer changeSound;
+    private MediaPlayer clickSound;
 
     private TradingGenerator tradingGenerator;
     private EventGenerator eventGenerator;
@@ -86,6 +87,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Set attributes from config database to prevent frequent queries
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.playSound = database.configDao().getPlaySound();
+        tradingGenerator.setChanceOfTradingChange(database.configDao().getChanceOfTradingChange());
+        eventGenerator.setChanceOfEventChange(database.configDao().getChanceOfEventChange());
+    }
+
+    /**
      * Creates config object and stores it in RoomDatabase
      */
     private void createConfig() {
@@ -113,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
      * Find views by id and set attributes
      */
     private void configTradingView(){
-        this.tradingGenerator = new TradingGenerator(this);
+        this.tradingGenerator = new TradingGenerator(database.configDao().getChanceOfTradingChange());
         this.tradingGiveImgView = findViewById(R.id.trading_give_imageview);
         this.tradingGetImgView = findViewById(R.id.trading_get_imageview);
         this.tradingGiveTextView = findViewById(R.id.traging_give_textview);
@@ -140,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
      * Find views by id and set attributes
      */
     private void configEventView(){
-        this.eventGenerator = new EventGenerator(this);
+        this.eventGenerator = new EventGenerator(this, database.configDao().getChanceOfEventChange());
         this.eventImgView = findViewById(R.id.event_imageview);
         this.eventOverlayCardView = findViewById(R.id.event_overlay_cardview);
         this.eventSymbolTextView = findViewById(R.id.event_symbol_textview);
@@ -185,10 +197,12 @@ public class MainActivity extends AppCompatActivity {
         boolean changedTradingView = refreshTradingView(false);
         boolean changedEventView = refreshEventView(false);
 
-        if (changedTradingView || changedEventView){
-            changeSound.start();
-        } else{
-            clickSound.start();
+        if (playSound){
+            if (changedTradingView || changedEventView){
+                changeSound.start();
+            } else{
+                clickSound.start();
+            }
         }
     }
 
@@ -236,7 +250,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                nextPlayerSound.start();
+                if(playSound){
+                    nextPlayerSound.start();
+                }
                 nextPlayer();
             }
         }.start();

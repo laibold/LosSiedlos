@@ -9,7 +9,7 @@ import com.laibold.lossiedlos.R;
 
 import com.laibold.lossiedlos.model.Config;
 
-@Database(entities = {Config.class, }, version = 1, exportSchema = false)
+@Database(entities = {Config.class, }, version = 2, exportSchema = false)
 public abstract class AppRoomDatabase extends RoomDatabase {
 
     private static String DB_NAME;

@@ -25,5 +25,6 @@
     <string name="settings_headline">Einstellungen</string>
     <string name="settings_trading_headline">Wahrscheinlichkeit des Wechsels des Tauschkurses:</string>
     <string name="settings_event_headline">Wahrscheinlichkeit des Wechsels des Ereignisses:</string>
+    <string name="play_sound">Sound abspielen:</string>
 
 </resources>

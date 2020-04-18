@@ -1,7 +1,9 @@
 package com.laibold.lossiedlos.ui;
 
 import android.os.Bundle;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,11 +17,14 @@ import com.laibold.lossiedlos.persistence.AppRoomDatabase;
  */
 public class SettingsActivity extends AppCompatActivity {
 
+    private Switch soundSwitch;
+
     private TextView tradingValueText;
     private SeekBar tradingSeekBar;
 
     private TextView eventValueText;
     private SeekBar eventSeekBar;
+
 
     private AppRoomDatabase database;
 
@@ -30,6 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         database = AppRoomDatabase.getInstance(getApplicationContext());
 
+        configSoundSwitch();
         configToolbar();
         configTradingSeekBar();
         configEventSeekBar();
@@ -97,6 +103,17 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 database.configDao().setChanceOfEventChange(seekBar.getProgress());
+            }
+        });
+    }
+
+    private void configSoundSwitch(){
+        this.soundSwitch = findViewById(R.id.settings_sound_switch);
+        soundSwitch.setChecked(database.configDao().getPlaySound());
+        soundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                database.configDao().setPlaySound(b);
             }
         });
     }

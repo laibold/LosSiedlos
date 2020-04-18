@@ -20,7 +20,12 @@ public class Config {
     @ColumnInfo
     private int chanceOfEventChange;
 
-    public Config () {}
+    @ColumnInfo
+    private boolean playSound;
+
+    public Config () {
+        this.playSound = true;
+    }
 
     /**
      * @return Database id
@@ -67,5 +72,19 @@ public class Config {
      */
     public void setChanceOfEventChange(int chanceOfEventChange) {
         this.chanceOfEventChange = chanceOfEventChange;
+    }
+
+    /**
+     * @return if sound is played
+     */
+    public boolean isPlaySound() {
+        return playSound;
+    }
+
+    /**
+     * @param playSound if sound should be played
+     */
+    public void setPlaySound(boolean playSound) {
+        this.playSound = playSound;
     }
 }

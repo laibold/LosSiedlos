@@ -8,7 +8,6 @@ import com.laibold.lossiedlos.model.event.card.CardEvent;
 import com.laibold.lossiedlos.model.event.card.CardEventType;
 import com.laibold.lossiedlos.model.event.custom.CustomEvent;
 import com.laibold.lossiedlos.model.event.custom.CustomEventType;
-import com.laibold.lossiedlos.persistence.AppRoomDatabase;
 
 import java.util.Random;
 
@@ -19,27 +18,34 @@ public class EventGenerator {
 
     private Random random;
     private Event currEvent;
-    private AppRoomDatabase database;
 
     private int cardQuantity;
     private int cardEventQuantity;
     private int customEventQuantity;
+    private int chanceOfEventChange;
     private Activity activity;
 
     /**
      * New EventGenerator
      * @param activity Belonging Activity
+     * @param chanceOfEventChange chance that Event changes (0-100)
      */
-    public EventGenerator(Activity activity){
+    public EventGenerator(Activity activity, int chanceOfEventChange){
         this.random = new Random();
         this.cardQuantity = ResourceCard.values().length -1; // -1 because question mark not included
         this.cardEventQuantity = CardEventType.values().length;
         this.customEventQuantity = CustomEventType.values().length;
         this.activity = activity;
-
-        this.database = AppRoomDatabase.getInstance(activity.getApplicationContext());
+        this.chanceOfEventChange = chanceOfEventChange;
 
         generateEvent();
+    }
+
+    /**
+     * @param chanceOfEventChange chance that Event changes (0-100)
+     */
+    public void setChanceOfEventChange(int chanceOfEventChange) {
+        this.chanceOfEventChange = chanceOfEventChange;
     }
 
     /**
@@ -89,7 +95,7 @@ public class EventGenerator {
      */
     public boolean changeEvent(){
         int i = random.nextInt(99);
-        return (i < database.configDao().getChanceOfEventChange() - 1);
+        return (i < chanceOfEventChange - 1);
     }
 
     /**
