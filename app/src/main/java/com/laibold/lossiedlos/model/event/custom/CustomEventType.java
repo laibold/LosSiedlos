@@ -7,7 +7,8 @@ import com.laibold.lossiedlos.R;
  */
 public enum CustomEventType {
     SLEEPING(R.string.event_sleeping_description, R.drawable.img_sleep),
-    NONE(R.string.event_none_description, R.drawable.img_catan);
+    NONE(R.string.event_none_description, R.drawable.img_catan),
+    NO_TRADE(R.string.event_no_trade_description, R.drawable.img_no_trade);
 
     private int colorID;
     private int descriptionID;

@@ -19,7 +19,8 @@
     <string name="event_getnone_description">Naturkatastrophe: Durch ein Unglück ist $resource nicht verfügbar!</string>
     <string name="event_double_description">Reiche Ernte: Das Wetter steht gut. $resource ist in doppelter Menge verfügbar!</string>
     <string name="event_sleeping_description">Psst! Der Räuber schläft. Er klaut keine Rohstoffe mehr, bei einer 7 passiert nichts.</string>
-    <string name="event_none_description">Ein normaler Tag auf Catan. Keine Besonderen Vorkommnisse</string>
+    <string name="event_none_description">Ein normaler Tag auf Catan. Keine Besonderen Vorkommnisse.</string>
+    <string name="event_no_trade_description">Die Regierung erlässt ein generelles Handelsverbot!</string>
     <string name="title_activity_settings">Einstellungen</string>
 
     <string name="settings_headline">Einstellungen</string>
